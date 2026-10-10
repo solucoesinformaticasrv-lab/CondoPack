@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#123b2a">
+  <meta name="description" content="CondoPack - Gestão de encomendas em condomínios">
+  <title>CondoPack</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icons/icon-192.png">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #f5f7f6;
+      font-family: Arial, sans-serif;
+    }
+
+    .app {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: #123b2a;
+      background: #f5f7f6;
+      z-index: 1;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .loading p {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 4px solid #d7e3dc;
+      border-top-color: #176b45;
+      border-radius: 50%;
+      animation: girar 0.8s linear infinite;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      flex: 1;
+      border: 0;
+      background: white;
+    }
+
+    @keyframes girar {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Carregando o CondoPack...</p>
+    </div>
+
+    <iframe
+      id="condopack"
+      src="https://script.google.com/macros/s/AKfycbzX_8RF4Arrnjvc2J-kDUlKPd_UOua9QNrR3UbalvLNZO3Bwh0zmRO3q0Z6mvu1cz34Bw/exec"
+      title="CondoPack"
+      allow="camera; microphone; geolocation"
+      allowfullscreen>
+    </iframe>
+  </main>
+
+  <script>
+    const appFrame = document.getElementById("condopack");
+    const loading = document.getElementById("loading");
+
+    appFrame.addEventListener("load", function () {
+      loading.style.display = "none";
+    });
+
+    if ("serviceWorker" in navigator && location.protocol === "https:") {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("./sw.js")
+          .catch(function (erro) {
+            console.error("Erro ao registrar Service Worker:", erro);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
