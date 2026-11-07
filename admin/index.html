@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="CondoPack Admin - uso interno">
+  <title>CondoPack Admin</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="CP Admin">
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #f5f7fb;
+      font-family: Arial, sans-serif;
+    }
+
+    .app {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: #0f172a;
+      background: #f5f7fb;
+      z-index: 1;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .loading img {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+    }
+
+    .loading p {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 4px solid #dbe4f5;
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: girar 0.8s linear infinite;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      flex: 1;
+      border: 0;
+      background: white;
+    }
+
+    @keyframes girar {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="loading" id="loading">
+      <img src="./icons/icon-192.png" alt="">
+      <div class="spinner"></div>
+      <p>Carregando o CondoPack Admin...</p>
+    </div>
+
+    <iframe
+      id="condopackAdmin"
+      src="https://script.google.com/macros/s/AKfycbxJeohMUu5nATapgyJuMfSi-egtGVbN3EWzVOPiHSCpd824TNH-zusReDzaHyvZMeJr/exec"
+      title="CondoPack Admin">
+    </iframe>
+  </main>
+
+  <script>
+    const appFrame = document.getElementById("condopackAdmin");
+    const loading = document.getElementById("loading");
+
+    appFrame.addEventListener("load", function () {
+      loading.style.display = "none";
+    });
+
+    if ("serviceWorker" in navigator && location.protocol === "https:") {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("./sw.js", { scope: "./" })
+          .catch(function (erro) {
+            console.error("Erro ao registrar Service Worker:", erro);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
