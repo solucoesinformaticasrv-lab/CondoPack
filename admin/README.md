@@ -6,4 +6,4 @@ repositório guarda apenas a casca do app e os ícones.
 
 - URL: https://solucoesinformaticasrv-lab.github.io/CondoPack/admin/
 - Para trocar a implantação do Apps Script, edite o `src` do iframe em `index.html`.
-- Ícones: `icons/` (padrão e maskable), gerados a partir de `../icons/icon-512.png` com o selo "ADMIN".
+- Ícones: `icons/` (caixa 3D sem fundo com selo de engrenagem; o `icon-180.png` do iPhone tem fundo branco).
